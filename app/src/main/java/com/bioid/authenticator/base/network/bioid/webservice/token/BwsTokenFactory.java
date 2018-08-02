@@ -22,6 +22,16 @@ public class BwsTokenFactory {
     }
 
     /**
+     * Creates a new {@link LivenessToken}.
+     *
+     * @throws NullPointerException     if the token is null
+     * @throws IllegalArgumentException if the token is not valid
+     */
+    public LivenessToken newLivenessToken(@NonNull String token) {
+        return new LivenessToken(jwtParser, token);
+    }
+
+    /**
      * Creates a new {@link EnrollmentToken}.
      *
      * @throws NullPointerException     if the token is null

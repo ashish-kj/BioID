@@ -23,12 +23,20 @@
                 android:id="@+id/verification_nav_button"
                 style="@style/Button"
                 android:layout_marginBottom="@dimen/view_margin_large"
-                android:text="@string/nav_verification"/>
+                android:text="@string/nav_verification" />
 
             <Button
                 android:id="@+id/enrollment_nav_button"
                 style="@style/Button"
-                android:text="@string/nav_enrollment"/>
+                android:layout_marginBottom="@dimen/view_margin_large"
+                android:text="@string/nav_enrollment" />
+
+            <Button
+                android:id="@+id/liveness_nav_button"
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_liveness" />
 
         </LinearLayout>
 

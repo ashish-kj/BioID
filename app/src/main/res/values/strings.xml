@@ -2,6 +2,7 @@
 <resources>
     <string name="nav_verification">Verify</string>
     <string name="nav_enrollment">Enroll face</string>
+    <string name="nav_liveness">Liveness detection</string>
 
     <string name="dialog_button_continue">Continue</string>
     <string name="dialog_title_missing_permission">Permission Required</string>
@@ -31,6 +32,9 @@
     <string name="verification_error_message_no_enrollment">You are not enrolled!</string>
     <string name="verification_warning_not_recognized">Failed Verification</string>
     <string name="verification_warning_challenge_response">Challenge-Response failed</string>
+
+    <string name="liveness_success">Successful Liveness detection</string>
+    <string name="liveness_error_title">Failed Liveness detection</string>
 
     <string name="enrollment_waiting">Training…</string>
     <string name="enrollment_success">Successful Enrollment</string>

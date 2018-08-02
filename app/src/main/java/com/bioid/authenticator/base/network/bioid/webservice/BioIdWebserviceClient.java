@@ -17,6 +17,7 @@ import com.bioid.authenticator.base.network.ServerErrorException;
 import com.bioid.authenticator.base.network.TechnicalException;
 import com.bioid.authenticator.base.network.bioid.webservice.token.BwsToken;
 import com.bioid.authenticator.base.network.bioid.webservice.token.EnrollmentToken;
+import com.bioid.authenticator.base.network.bioid.webservice.token.LivenessToken;
 import com.bioid.authenticator.base.network.bioid.webservice.token.VerificationToken;
 
 import org.json.JSONException;
@@ -115,6 +116,42 @@ public class BioIdWebserviceClient {
         try {
             return withDefaultTimeout(
                     HttpRequest.get(BWS_BASE_URL + "/extension/verify")
+                            .authorization("Bearer " + token)
+                            .acceptJson());
+        } catch (HttpRequest.HttpRequestException e) {
+            throw new NoConnectionException(e);
+        }
+    }
+
+    /**
+     * Perform the biometric liveness detection based on the uploaded images.
+     *
+     * @param livenessToken BWS token for verification
+     * @throws LiveDetectionException     if images do not prove that they are recorded from a live person
+     * @throws ChallengeResponseException if the images do not fulfill the challenge-response criteria
+     * @throws NoSamplesException         if no valid images have been uploaded
+     * @throws NoConnectionException      if no connection could be established
+     * @throws ServerErrorException       if the server failed to process the request
+     * @throws TechnicalException         if any other technical error occurred
+     */
+    public void livenessDetection(@NonNull LivenessToken livenessToken) {
+        try {
+            HttpRequest request = createLivenessResultRequest(livenessToken.getToken());
+            JSONObject responseBody = httpRequestHelper.asJsonIfOk(request);
+            handleBiometricOperationResult(responseBody);
+        } catch (HttpRequestHelper.Non200StatusException e) {
+            if (e.getStatus() == HTTP_STATUS_NO_SAMPLES) {
+                throw new NoSamplesException();
+            }
+            throw new TechnicalException(e);
+        }
+    }
+
+    @VisibleForTesting
+    protected HttpRequest createLivenessResultRequest(@NonNull String token) {
+        try {
+            return withDefaultTimeout(
+                    HttpRequest.get(BWS_BASE_URL + "/extension/livenessdetection")
                             .authorization("Bearer " + token)
                             .acceptJson());
         } catch (HttpRequest.HttpRequestException e) {

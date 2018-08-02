@@ -2,6 +2,7 @@
 <resources>
     <string name="nav_verification">验证</string>
     <string name="nav_enrollment">"录制人脸</string>
+    <string name="nav_liveness">Liveness detection</string>
 
     <string name="dialog_button_continue">继续</string>
     <string name="dialog_title_missing_permission">必须取得授权</string>

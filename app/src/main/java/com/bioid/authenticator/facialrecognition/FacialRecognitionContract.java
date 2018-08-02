@@ -91,6 +91,11 @@ public interface FacialRecognitionContract {
         void showVerificationSuccess();
 
         /**
+         * Show a success message indicating that the user verification succeeded.
+         */
+        void showLivenessSuccess();
+
+        /**
          * Show a success message indicating that the user enrollment succeeded.
          */
         void showEnrollmentSuccess();

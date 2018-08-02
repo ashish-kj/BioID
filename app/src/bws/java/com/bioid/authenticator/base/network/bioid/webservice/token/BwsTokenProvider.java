@@ -10,7 +10,7 @@ import com.bioid.authenticator.base.network.bioid.webservice.BioIdWebserviceClie
 /**
  * Can be used to request BWS tokens from the BWS API.
  */
-public class BwsTokenProvider implements VerificationTokenProvider, EnrollmentTokenProvider {
+public class BwsTokenProvider implements VerificationTokenProvider, EnrollmentTokenProvider, LivenessTokenProvider {
 
     private final String bcid;
 
@@ -32,6 +32,11 @@ public class BwsTokenProvider implements VerificationTokenProvider, EnrollmentTo
     @Override
     public EnrollmentToken requestEnrollmentToken(@NonNull Context ctx) {
         return createBwsClient(ctx).requestEnrollmentToken(bcid);
+    }
+
+    @Override
+    public LivenessToken requestLivenessToken(@NonNull Context ctx) {
+        return createBwsClient(ctx).requestLivenessToken(bcid);
     }
 
     @VisibleForTesting

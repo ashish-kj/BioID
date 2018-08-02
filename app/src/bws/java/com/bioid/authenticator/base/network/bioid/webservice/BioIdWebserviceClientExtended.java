@@ -14,6 +14,7 @@ import com.bioid.authenticator.base.network.ServerErrorException;
 import com.bioid.authenticator.base.network.TechnicalException;
 import com.bioid.authenticator.base.network.bioid.webservice.token.BwsTokenFactory;
 import com.bioid.authenticator.base.network.bioid.webservice.token.EnrollmentToken;
+import com.bioid.authenticator.base.network.bioid.webservice.token.LivenessToken;
 import com.bioid.authenticator.base.network.bioid.webservice.token.VerificationToken;
 
 import java.util.Map;
@@ -62,6 +63,27 @@ public class BioIdWebserviceClientExtended extends BioIdWebserviceClient {
             HttpRequest request = createNewTokenRequest(bcid, VERIFICATION_TASK);
             String responseBody = httpRequestHelper.asTextIfOk(request);
             return tokenFactory.newVerificationToken(responseBody);
+        } catch (HttpRequestHelper.Non200StatusException e) {
+            throw new TechnicalException(e);
+        }
+    }
+
+    /**
+     * Requests a new liveness token from BWS.
+     * The token can be used to perform a user liveness detection.
+     *
+     * @param bcid Biometric Class ID (BCID) of the user for whom the token shall be issued.
+     * @return token for liveness detection
+     * @throws NoConnectionException if no connection could be established
+     * @throws ServerErrorException  if the server failed to process the request
+     * @throws TechnicalException    if any other technical error occurred
+     */
+    @NonNull
+    public LivenessToken requestLivenessToken(@NonNull String bcid) {
+        try {
+            HttpRequest request = createNewTokenRequest(bcid, VERIFICATION_TASK);
+            String responseBody = httpRequestHelper.asTextIfOk(request);
+            return tokenFactory.newLivenessToken(responseBody);
         } catch (HttpRequestHelper.Non200StatusException e) {
             throw new TechnicalException(e);
         }

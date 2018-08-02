@@ -40,11 +40,13 @@ import com.bioid.authenticator.base.logging.LoggingHelperFactory;
 import com.bioid.authenticator.base.network.bioid.webservice.MovementDirection;
 import com.bioid.authenticator.base.network.bioid.webservice.Task;
 import com.bioid.authenticator.base.network.bioid.webservice.token.EnrollmentTokenProvider;
+import com.bioid.authenticator.base.network.bioid.webservice.token.LivenessTokenProvider;
 import com.bioid.authenticator.base.network.bioid.webservice.token.VerificationTokenProvider;
 import com.bioid.authenticator.base.notification.DialogHelper;
 import com.bioid.authenticator.base.opengl.HeadOverlayView.Direction;
 import com.bioid.authenticator.databinding.FragmentFacialRecognitionBinding;
 import com.bioid.authenticator.facialrecognition.enrollment.EnrollmentPresenter;
+import com.bioid.authenticator.facialrecognition.liveness.LivenessPresenter;
 import com.bioid.authenticator.facialrecognition.verification.VerificationPresenter;
 
 import java.util.Random;
@@ -96,6 +98,13 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
     }
 
     /**
+     * Factory method to create a new fragment instance for liveness detection.
+     */
+    public static FacialRecognitionFragment newInstanceForLivenessDetection(LivenessTokenProvider tokenProvider) {
+        return newInstanceWithTokenProvider(tokenProvider, Task.Liveness);
+    }
+
+    /**
      * Factory method to create a new fragment instance for enrollment.
      */
     public static FacialRecognitionFragment newInstanceForEnrollment(EnrollmentTokenProvider tokenProvider) {
@@ -138,6 +147,8 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
                 return new VerificationPresenter(ctx, this, (VerificationTokenProvider) tokenProvider);
             case Enrollment:
                 return new EnrollmentPresenter(ctx, this, (EnrollmentTokenProvider) tokenProvider);
+            case Liveness:
+                return new LivenessPresenter(ctx, this, (LivenessTokenProvider) tokenProvider);
             default:
                 throw new IllegalStateException("unknown biometric task: " + task);
         }
@@ -325,6 +336,11 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
     @Override
     public void showVerificationSuccess() {
         showFullScreenMessage(R.string.verification_success);
+    }
+
+    @Override
+    public void showLivenessSuccess() {
+        showFullScreenMessage(R.string.liveness_success);
     }
 
     @Override

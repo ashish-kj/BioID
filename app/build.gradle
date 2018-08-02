@@ -52,7 +52,8 @@ android {
     productFlavors {
         bws {
             dimension 'identity_provider'
-            applicationIdSuffix '.bws'  // making it possible to have both the connect and bws flavor installed in parallel
+            applicationIdSuffix '.bws'
+            // making it possible to have both the connect and bws flavor installed in parallel
 
             // adding BWS settings from local gradle.properties
             buildConfigField 'String', 'BIOID_BWS_INSTANCE_NAME', BioIdBwsInstanceName
@@ -71,6 +72,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:11.8.0'
     implementation 'org.rajawali3d:rajawali:1.1.970@aar'
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
     testImplementation 'org.mockito:mockito-core:2.13.0'
@@ -98,7 +100,8 @@ static def commitCountOfCurrentBranch() {
  * Returns the name of the last tag plus a "-dirty" suffix if any commits or working directory changes have been made.
  */
 static def nameOfLastTag() {
-    def gitDescribe = ['git', 'describe', '--dirty', '--long'].execute().text.trim()  // e.g. "1.2.1-3-gb076164-dirty"
+    def gitDescribe = ['git', 'describe', '--dirty', '--long'].execute().text.trim()
+    // e.g. "1.2.1-3-gb076164-dirty"
 
     if (gitDescribe.isEmpty()) {
         // no tagged revision in this repository

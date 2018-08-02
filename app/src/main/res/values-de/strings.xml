@@ -2,6 +2,7 @@
 <resources>
     <string name="nav_verification">Erkennung</string>
     <string name="nav_enrollment">Einlernen (Enrollment)</string>
+    <string name="nav_liveness">Liveness detection</string>
 
     <string name="dialog_button_continue">Weiter</string>
     <string name="dialog_title_missing_permission">Erlaubnis erforderlich</string>

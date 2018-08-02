@@ -2,6 +2,7 @@
 <resources>
     <string name="nav_verification">驗證</string>
     <string name="nav_enrollment">錄製人臉</string>
+    <string name="nav_liveness">Liveness detection</string>
 
     <string name="dialog_button_continue">繼續</string>
     <string name="dialog_title_missing_permission">必須取得授權</string>
