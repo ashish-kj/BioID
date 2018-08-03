@@ -30,7 +30,8 @@
         </activity>
         <activity android:name=".facialrecognition.verification.VerificationActivity" />
         <activity android:name=".facialrecognition.enrollment.EnrollmentActivity" />
-        <activity android:name=".facialrecognition.liveness.LivenessActivity"></activity>
+        <activity android:name=".facialrecognition.liveness.LivenessActivity" />
+        <activity android:name=".facialrecognition.photoverify.PhotoVerifyActivity"></activity>
     </application>
 
 </manifest>

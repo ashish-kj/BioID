@@ -63,7 +63,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     protected int failedUploads;
 
     @VisibleForTesting
-    int index;
+    protected int index;
     @VisibleForTesting
     PermissionState permissionState = PermissionState.UNKNOWN;
     @VisibleForTesting
@@ -71,7 +71,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     @VisibleForTesting
     MovementDirection currentDirection, destinationDirection;
     @VisibleForTesting
-    Integer taskIdMotionTimeout;
+    protected Integer taskIdMotionTimeout;
     @VisibleForTesting
     Integer taskIdFaceTimeout;
 
@@ -322,7 +322,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
                 }, null);
     }
 
-    private void onImageWithMotionCaptured(@NonNull final Bitmap bitmap) {
+    protected void onImageWithMotionCaptured(@NonNull final Bitmap bitmap) {
         log.d("onImageWithMotionCaptured(img=%s)", bitmap);
 
         // cancel motion timeout and hide movement instruction text

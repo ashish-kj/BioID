@@ -28,7 +28,6 @@ public class LivenessPresenter extends FacialRecognitionBasePresenter<LivenessTo
     private static final int AUTO_FOCUS_AND_WHITE_BALANCE_DELAY_IN_MILLIS = 500;
     private static final int DELAY_TO_CONTINUE_WITHIN_CHALLENGE_IN_MILLIS = 2_000;
 
-    @VisibleForTesting
     int nextPairForChallenge;
 
     private final LivenessTokenProvider tokenProvider;
@@ -38,18 +37,6 @@ public class LivenessPresenter extends FacialRecognitionBasePresenter<LivenessTo
         super(ctx, LoggingHelperFactory.create(LivenessPresenter.class), view);
         this.tokenProvider = tokenProvider;
         this.bioIdWebserviceClient = new BioIdWebserviceClient();
-    }
-
-    @VisibleForTesting
-    LivenessPresenter(Context ctx, LoggingHelper log, FacialRecognitionContract.View view, BackgroundHandler backgroundHandler,
-                          MotionDetection motionDetection, LivenessTokenProvider tokenProvider,
-                          BioIdWebserviceClient bioIdWebserviceClient) {
-
-        // using null dependencies makes sure the base class functionality won't be tested (MotionDetection is used in reset)
-        super(ctx, log, view, backgroundHandler, null, null, null, motionDetection, null);
-
-        this.tokenProvider = tokenProvider;
-        this.bioIdWebserviceClient = bioIdWebserviceClient;
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.bioid.authenticator.base.network.bioid.webservice.token.BwsTokenProvi
 import com.bioid.authenticator.databinding.ActivityMainBinding;
 import com.bioid.authenticator.facialrecognition.enrollment.EnrollmentActivity;
 import com.bioid.authenticator.facialrecognition.liveness.LivenessActivity;
+import com.bioid.authenticator.facialrecognition.photoverify.PhotoVerifyActivity;
 import com.bioid.authenticator.facialrecognition.verification.VerificationActivity;
 
 /**
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_VERIFY = 0;
     private static final int REQUEST_CODE_ENROLL = 1;
     private static final int REQUEST_CODE_LIVENESS = 2;
+    private static final int REQUEST_CODE_PHOTO_VERIFY = 3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +52,13 @@ public class MainActivity extends AppCompatActivity {
 
         binding.livenessNavButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LivenessActivity.class);
-            intent.putExtra(EnrollmentActivity.EXTRA_TOKEN_PROVIDER, tokenProvider);
+            intent.putExtra(LivenessActivity.EXTRA_TOKEN_PROVIDER, tokenProvider);
             startActivityForResult(intent, REQUEST_CODE_LIVENESS);
+        });
+
+        binding.photoVerifyNavButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PhotoVerifyActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_PHOTO_VERIFY);
         });
     }
 
@@ -66,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case REQUEST_CODE_LIVENESS:
                 Log.i(TAG, "Liveness detection successful: " + (resultCode == Activity.RESULT_OK));
+                break;
+            case REQUEST_CODE_PHOTO_VERIFY:
+                Log.i(TAG, "Photo verify successful: " + (resultCode == Activity.RESULT_OK));
                 break;
         }
     }

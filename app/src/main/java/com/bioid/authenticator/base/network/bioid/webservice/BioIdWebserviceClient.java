@@ -258,6 +258,36 @@ public class BioIdWebserviceClient {
         }
     }
 
+    public void performPhotoVerify(Bitmap[] selfies, Bitmap idphoto) {
+        byte[] prepraredSelfie1 = prepareImage(selfies[0]);
+        byte[] prepraredSelfie2 = prepareImage(selfies[1]);
+        byte[] preparedIdphoto = prepareImage(idphoto);
+
+        try {
+            JSONObject requestBody = new JSONObject();
+            requestBody.put("liveimage1", new String(prepraredSelfie1));
+            requestBody.put("liveimage2", new String(prepraredSelfie2));
+            requestBody.put("idphoto", new String(preparedIdphoto));
+
+            HttpRequest request = HttpRequest.post(BWS_BASE_URL + "/extension/photoverify", null, true)
+                    .authorization("Basic " + getBasicToken())
+                    .acceptJson()
+                    .contentType("application/json", "utf-8")
+                    .connectTimeout(5000)
+                    .readTimeout(25_000)
+                    .send(requestBody.toString().getBytes());
+
+            handlePhotoVerifyResult(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getBasicToken() {
+        String stringToken = BuildConfig.BIOID_APP_ID + ":" + BuildConfig.BIOID_APP_SECRET;
+        return new String(encoder.encodeAsBase64(stringToken.getBytes()));
+    }
+
     @NonNull
     private byte[] prepareImage(@NonNull Bitmap bitmap) {
         byte[] imgAsPNG = imageFormatConverter.bitmapToPng(bitmap);
@@ -325,6 +355,25 @@ public class BioIdWebserviceClient {
             }
         } catch (JSONException e) {
             throw new TechnicalException("missing key on JSON deserialization", e);
+        }
+    }
+
+    private void handlePhotoVerifyResult(HttpRequest request){
+        if (request.code() == 400) {
+            try {
+                JSONObject response = new JSONObject(request.body());
+                String message = response.getString("Message");
+
+                throw new PhotoVerifyException(message);
+            } catch (JSONException e) {
+                throw new TechnicalException("Response with code 400 and non-valid JSON as body");
+            }
+        } else {
+            String response = httpRequestHelper.asTextIfOk(request);
+
+            if(response.equals("false")) {
+                throw new PhotoVerifyException("Photo verify failed");
+            }
         }
     }
 }

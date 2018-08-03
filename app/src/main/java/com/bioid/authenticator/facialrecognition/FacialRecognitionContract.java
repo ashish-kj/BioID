@@ -1,5 +1,6 @@
 package com.bioid.authenticator.facialrecognition;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.bioid.authenticator.base.annotations.Rotation;
@@ -192,6 +193,8 @@ public interface FacialRecognitionContract {
          * Stops the camera preview.
          */
         void stopPreview();
+
+        Activity getParentActivity();
     }
 
     interface Presenter extends LifecycleAware {
@@ -233,6 +236,5 @@ public interface FacialRecognitionContract {
          * @param imgRotation the rotation of the image
          */
         void onImageCaptured(@NonNull IntensityPlane img, @Rotation int imgRotation);
-
     }
 }

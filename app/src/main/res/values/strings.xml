@@ -3,6 +3,7 @@
     <string name="nav_verification">Verify</string>
     <string name="nav_enrollment">Enroll face</string>
     <string name="nav_liveness">Liveness detection</string>
+    <string name="nav_photo_verify">Photo verify</string>
 
     <string name="dialog_button_continue">Continue</string>
     <string name="dialog_title_missing_permission">Permission Required</string>
@@ -36,10 +37,18 @@
     <string name="liveness_success">Successful Liveness detection</string>
     <string name="liveness_error_title">Failed Liveness detection</string>
 
+    <string name="photo_verify_base_info">Choose or take a photo of your ID</string>
+    <string name="photo_verify_base_camera">Open camera</string>
+    <string name="photo_verify_base_gallery">Open gallery</string>
+    <string name="photo_verify_in_progress">Verification in progress</string>
+
     <string name="enrollment_waiting">Training…</string>
     <string name="enrollment_success">Successful Enrollment</string>
     <string name="enrollment_process_explanation_title">Easy as a selfie</string>
     <string name="enrollment_process_explanation_message">Enrollment is how BioID learns to recognize you. Four sets of pictures will be taken. Hold device at eye level and follow instructions.</string>
     <string name="enrollment_process_turn90degrees_title">Please turn</string>
     <string name="enrollment_process_turn90degrees_message">Turn yourself 90 degrees to your right to achieve different lighting conditions.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

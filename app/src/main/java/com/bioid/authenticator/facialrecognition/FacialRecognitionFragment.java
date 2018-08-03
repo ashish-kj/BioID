@@ -47,6 +47,7 @@ import com.bioid.authenticator.base.opengl.HeadOverlayView.Direction;
 import com.bioid.authenticator.databinding.FragmentFacialRecognitionBinding;
 import com.bioid.authenticator.facialrecognition.enrollment.EnrollmentPresenter;
 import com.bioid.authenticator.facialrecognition.liveness.LivenessPresenter;
+import com.bioid.authenticator.facialrecognition.photoverify.PhotoVerifyPresenter;
 import com.bioid.authenticator.facialrecognition.verification.VerificationPresenter;
 
 import java.util.Random;
@@ -105,10 +106,27 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
     }
 
     /**
+     * Factory method to create a new fragment instance for photo verify.
+     */
+    public static FacialRecognitionFragment newInstanceForPhotoVerify() {
+        return newInstanceWithoutTokenProvider(Task.PhotoVerify);
+    }
+
+    /**
      * Factory method to create a new fragment instance for enrollment.
      */
     public static FacialRecognitionFragment newInstanceForEnrollment(EnrollmentTokenProvider tokenProvider) {
         return newInstanceWithTokenProvider(tokenProvider, Task.Enrollment);
+    }
+
+    private static FacialRecognitionFragment newInstanceWithoutTokenProvider(Task task) {
+        FacialRecognitionFragment fragment = new FacialRecognitionFragment();
+
+        Bundle args = new Bundle(1);
+        args.putString(ARG_TASK, task.name());
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     private static FacialRecognitionFragment newInstanceWithTokenProvider(Parcelable tokenProvider, Task task) {
@@ -128,16 +146,16 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
             throw new IllegalStateException("missing arguments");
         }
 
-        Parcelable tokenProvider = args.getParcelable(ARG_TOKEN_PROVIDER);
-        if (tokenProvider == null) {
-            throw new IllegalStateException("TokenProvider is null");
-        }
-
         Task task;
         try {
             task = Task.valueOf(args.getString(ARG_TASK));
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("Task is null or an invalid string");
+        }
+
+        Parcelable tokenProvider = args.getParcelable(ARG_TOKEN_PROVIDER);
+        if (tokenProvider == null && !task.equals(Task.PhotoVerify)) {
+            throw new IllegalStateException("TokenProvider is null");
         }
 
         Context ctx = getContext().getApplicationContext();
@@ -149,6 +167,8 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
                 return new EnrollmentPresenter(ctx, this, (EnrollmentTokenProvider) tokenProvider);
             case Liveness:
                 return new LivenessPresenter(ctx, this, (LivenessTokenProvider) tokenProvider);
+            case PhotoVerify:
+                return new PhotoVerifyPresenter(ctx, this);
             default:
                 throw new IllegalStateException("unknown biometric task: " + task);
         }
@@ -271,6 +291,10 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
                 binding.headOverlay.lookInto(Direction.RIGHT);
                 break;
         }
+    }
+
+    public Activity getParentActivity() {
+        return getActivity();
     }
 
     private void lookIntoRandomDirection() {

@@ -3,6 +3,7 @@
     <string name="nav_verification">Проверить</string>
     <string name="nav_enrollment">Зачислить лицо (Регистрация)</string>
     <string name="nav_liveness">Liveness detection</string>
+    <string name="nav_photo_verify">Photo verify</string>
 
     <string name="dialog_button_continue">Продолжить</string>
     <string name="dialog_title_missing_permission">Требуется разрешение</string>

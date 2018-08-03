@@ -36,7 +36,15 @@
                 style="@style/Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_margin_large"
                 android:text="@string/nav_liveness" />
+
+            <Button
+                android:id="@+id/photo_verify_nav_button"
+                style="@style/Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nav_photo_verify" />
 
         </LinearLayout>
 
