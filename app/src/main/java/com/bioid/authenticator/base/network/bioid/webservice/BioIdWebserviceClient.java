@@ -258,6 +258,15 @@ public class BioIdWebserviceClient {
         }
     }
 
+    /**
+     * Call PhotoVerify API to verify whether the live images and ID photo belong to the same person.
+     * Learn more: https://developer.bioid.com/bwsreference/web-api/web-photo-verify-api
+     *
+     * @param selfies two live recorded images, which are sent to the quality-check where, among other things, the face detection is done
+     * @param idphoto a photo, typically a passport image from an ID document. If the photo also contains a face, it is compared to the live images.
+     * @throws TechnicalException   if something went wrong and server returns status 400 but with invalid JSON
+     * @throws PhotoVerifyException if verification failed (for any reason)
+     */
     public void performPhotoVerify(Bitmap[] selfies, Bitmap idphoto) {
         byte[] prepraredSelfie1 = prepareImage(selfies[0]);
         byte[] prepraredSelfie2 = prepareImage(selfies[1]);
@@ -283,6 +292,9 @@ public class BioIdWebserviceClient {
         }
     }
 
+    /**
+     * Get basic token for authentication based on appId:appSecret structure
+     */
     private String getBasicToken() {
         String stringToken = BuildConfig.BIOID_APP_ID + ":" + BuildConfig.BIOID_APP_SECRET;
         return new String(encoder.encodeAsBase64(stringToken.getBytes()));
@@ -358,6 +370,12 @@ public class BioIdWebserviceClient {
         }
     }
 
+    /**
+     * Handle response from PhotoVerify API.
+     * Important note: Response may be string or json
+     * @throws TechnicalException   if something went wrong and server returns status 400 but with invalid JSON
+     * @throws PhotoVerifyException if verification failed (for any reason)
+     */
     private void handlePhotoVerifyResult(HttpRequest request){
         if (request.code() == 400) {
             try {

@@ -63,7 +63,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     protected int failedUploads;
 
     @VisibleForTesting
-    protected int index;
+    int index;
     @VisibleForTesting
     PermissionState permissionState = PermissionState.UNKNOWN;
     @VisibleForTesting
@@ -71,7 +71,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     @VisibleForTesting
     MovementDirection currentDirection, destinationDirection;
     @VisibleForTesting
-    protected Integer taskIdMotionTimeout;
+    Integer taskIdMotionTimeout;
     @VisibleForTesting
     Integer taskIdFaceTimeout;
 

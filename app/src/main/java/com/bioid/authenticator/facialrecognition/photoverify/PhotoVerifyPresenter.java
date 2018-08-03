@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.bioid.authenticator.base.logging.LoggingHelperFactory;
-import com.bioid.authenticator.base.network.bioid.webservice.BioIdWebserviceClient;
 import com.bioid.authenticator.base.network.bioid.webservice.MovementDirection;
 import com.bioid.authenticator.base.network.bioid.webservice.token.NoopToken;
 import com.bioid.authenticator.facialrecognition.FacialRecognitionBasePresenter;
@@ -23,15 +22,10 @@ public class PhotoVerifyPresenter extends FacialRecognitionBasePresenter<NoopTok
     private static final int AUTO_FOCUS_AND_WHITE_BALANCE_DELAY_IN_MILLIS = 500;
     private static final int DELAY_TO_CONTINUE_WITHIN_CHALLENGE_IN_MILLIS = 2_000;
 
-    int nextPairForChallenge;
-
-    private final BioIdWebserviceClient bioIdWebserviceClient;
     private Bitmap[] selfies = new Bitmap[2];
 
     public PhotoVerifyPresenter(Context ctx, FacialRecognitionFragment view) {
         super(ctx, LoggingHelperFactory.create(PhotoVerifyPresenter.class), view);
-        this.bwsToken = null;
-        this.bioIdWebserviceClient = new BioIdWebserviceClient();
     }
 
     @Override
@@ -39,6 +33,7 @@ public class PhotoVerifyPresenter extends FacialRecognitionBasePresenter<NoopTok
         log.i("startBiometricOperation()");
 
         view.showInitialisationInfo();
+        view.resetMovementIndicator();
 
         backgroundHandler.runWithDelay(this::detectFace, AUTO_FOCUS_AND_WHITE_BALANCE_DELAY_IN_MILLIS);
     }

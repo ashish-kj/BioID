@@ -34,16 +34,26 @@ public class PhotoVerifyActivity extends AppCompatActivity {
         this.bioIdWebserviceClient = new BioIdWebserviceClient();
     }
 
-    public void endIdPhotoSession(Bitmap idphoto) {
-        replaceFragment(new PhotoVerifyProgressFragment(), TAG_IN_PROGRESS_FRAGMENT);
-        performPhotoVerify(resizeBitmap(idphoto, 600));
-    }
-
+    /**
+     * User took 2 selfies (via facial recognition mechanism), we should as him for ID photo now
+     */
     public void endSelfiesSession(Bitmap[] selfies) {
         this.selfies = selfies;
         replaceFragment(new PhotoVerifyBaseFragment(), TAG_BASE_FRAGMENT);
     }
 
+    /**
+     * User selected photo of his ID, so we have all 3 required photos to send request to API
+     * We resize photo of ID to increase performance
+     */
+    public void endIdPhotoSession(Bitmap idphoto) {
+        replaceFragment(new PhotoVerifyProgressFragment(), TAG_IN_PROGRESS_FRAGMENT);
+        performPhotoVerify(resizeBitmap(idphoto, 600));
+    }
+
+    /**
+     * Setup first fragment for activity (facial recognition)
+     */
     private void setupFragment() {
         Fragment facialRecognitionFragment = getFragmentManager().findFragmentByTag(TAG_FACIAL_RECOGNITION_FRAGMENT);
         if (facialRecognitionFragment == null) {
@@ -55,6 +65,9 @@ public class PhotoVerifyActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Change current fragment for the new one
+     */
     private void replaceFragment(Fragment fragment, String fragmentTag) {
         getFragmentManager()
                 .beginTransaction()
@@ -64,6 +77,9 @@ public class PhotoVerifyActivity extends AppCompatActivity {
         getFragmentManager().executePendingTransactions();
     }
 
+    /**
+     * Perform call to API in background thread
+     */
     private void performPhotoVerify(Bitmap idphoto) {
         this.backgroundHandler.runOnBackgroundThread(
                 () -> this.bioIdWebserviceClient.performPhotoVerify(this.selfies, idphoto),
@@ -89,6 +105,9 @@ public class PhotoVerifyActivity extends AppCompatActivity {
         return Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
     }
 
+    /**
+     * Set messages on {@link PhotoVerifyProgressFragment} to inform user what is going on
+     */
     private void setProgressMessage(String message) {
         PhotoVerifyProgressFragment progressFragment = (PhotoVerifyProgressFragment) getFragmentManager().findFragmentByTag(TAG_IN_PROGRESS_FRAGMENT);
         if (progressFragment != null) {
