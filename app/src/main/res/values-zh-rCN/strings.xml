@@ -2,6 +2,8 @@
 <resources>
     <string name="nav_verification">验证</string>
     <string name="nav_enrollment">"录制人脸</string>
+    <string name="nav_liveness">Liveness detection</string>
+    <string name="nav_photo_verify">Photo verify</string>
 
     <string name="dialog_button_continue">继续</string>
     <string name="dialog_title_missing_permission">必须取得授权</string>
@@ -31,6 +33,15 @@
     <string name="verification_error_message_no_enrollment">您还未录制模版！</string>
     <string name="verification_warning_not_recognized">验证失败</string>
     <string name="verification_warning_challenge_response">指定回应验证失败</string>
+
+    <string name="liveness_waiting">Performing Liveness Detection</string>
+    <string name="liveness_success">Liveness Detection successful</string>
+    <string name="liveness_error_title">Liveness Detection failed</string>
+
+    <string name="photo_verify_base_info">Choose or take a photo of your ID</string>
+    <string name="photo_verify_base_camera">Open camera</string>
+    <string name="photo_verify_base_gallery">Open gallery</string>
+    <string name="photo_verify_in_progress">Verification in progress</string>
 
     <string name="enrollment_waiting">计算中…</string>
     <string name="enrollment_success">模版录制成功</string>

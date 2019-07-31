@@ -16,6 +16,7 @@ import com.bioid.authenticator.facialrecognition.FacialRecognitionFragment;
 
 public class PhotoVerifyActivity extends AppCompatActivity {
     private Bitmap[] selfies = new Bitmap[2];
+    private Bitmap idphoto;
     private BackgroundHandler backgroundHandler;
     private BioIdWebserviceClient bioIdWebserviceClient;
 
@@ -35,32 +36,40 @@ public class PhotoVerifyActivity extends AppCompatActivity {
     }
 
     /**
-     * User took 2 selfies (via facial recognition mechanism), we should as him for ID photo now
+     * User took 2 selfies (via facial recognition mechanism), so we have all 3 required photos to send request to API
+     * We resize photo of ID to increase performance
      */
     public void endSelfiesSession(Bitmap[] selfies) {
         this.selfies = selfies;
-        replaceFragment(new PhotoVerifyBaseFragment(), TAG_BASE_FRAGMENT);
+        replaceFragment(new PhotoVerifyProgressFragment(), TAG_IN_PROGRESS_FRAGMENT);
+        performPhotoVerify(resizeBitmap(this.idphoto, 600));
     }
 
     /**
-     * User selected photo of his ID, so we have all 3 required photos to send request to API
+     * User selected photo of his ID, so we should ask him for selfies
      * We resize photo of ID to increase performance
      */
     public void endIdPhotoSession(Bitmap idphoto) {
-        replaceFragment(new PhotoVerifyProgressFragment(), TAG_IN_PROGRESS_FRAGMENT);
-        performPhotoVerify(resizeBitmap(idphoto, 600));
+        this.idphoto = idphoto;
+        Fragment facialFragment = getFragmentManager().findFragmentByTag(TAG_FACIAL_RECOGNITION_FRAGMENT);
+
+        if(facialFragment == null) {
+            replaceFragment(FacialRecognitionFragment.newInstanceForPhotoVerify(), TAG_FACIAL_RECOGNITION_FRAGMENT);
+        } else {
+            replaceFragment(facialFragment, TAG_FACIAL_RECOGNITION_FRAGMENT);
+        }
     }
 
     /**
-     * Setup first fragment for activity (facial recognition)
+     * Setup first fragment for activity
      */
     private void setupFragment() {
-        Fragment facialRecognitionFragment = getFragmentManager().findFragmentByTag(TAG_FACIAL_RECOGNITION_FRAGMENT);
-        if (facialRecognitionFragment == null) {
+        Fragment baseFragment = getFragmentManager().findFragmentByTag(TAG_BASE_FRAGMENT);
+        if (baseFragment == null) {
             // fragment is not retained
-            FacialRecognitionFragment fragment = FacialRecognitionFragment.newInstanceForPhotoVerify();
+            PhotoVerifyBaseFragment fragment = new PhotoVerifyBaseFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.add(R.id.frame_layout, fragment, TAG_FACIAL_RECOGNITION_FRAGMENT);
+            transaction.add(R.id.frame_layout, fragment, TAG_BASE_FRAGMENT);
             transaction.commit();
         }
     }

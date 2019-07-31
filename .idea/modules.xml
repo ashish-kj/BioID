@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BWS-Android.iml" filepath="$PROJECT_DIR$/BWS-Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bioID.iml" filepath="$PROJECT_DIR$/.idea/bioID.iml" />
     </modules>
   </component>
 </project>

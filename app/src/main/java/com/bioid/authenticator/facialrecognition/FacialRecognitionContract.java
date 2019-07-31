@@ -81,6 +81,8 @@ public interface FacialRecognitionContract {
          */
         void showVerifyingInfo();
 
+        void showLivenessVerifyingInfo();
+
         /**
          * Show enrolling info message.
          */

@@ -22,7 +22,7 @@
     <string name="facial_recognition_find_face">Trying to detect face…</string>
     <string name="facial_recognition_uploading">Uploading images…</string>
     <string name="facial_recognition_warning_motion_detection">No motion detected</string>
-    <string name="facial_recognition_warning_live_detection">Failed Liveness Detection</string>
+    <string name="facial_recognition_warning_live_detection">Liveness Detection failed</string>
     <string name="facial_recognition_warning_no_face_found">No face found</string>
     <string name="facial_recognition_warning_multiple_faces_found">Multiple faces found</string>
     <string name="facial_recognition_warning_no_samples">No face found</string>
@@ -34,8 +34,9 @@
     <string name="verification_warning_not_recognized">Failed Verification</string>
     <string name="verification_warning_challenge_response">Challenge-Response failed</string>
 
-    <string name="liveness_success">Successful Liveness detection</string>
-    <string name="liveness_error_title">Failed Liveness detection</string>
+    <string name="liveness_waiting">Performing Liveness Detection</string>
+    <string name="liveness_success">Liveness Detection successful</string>
+    <string name="liveness_error_title">Liveness Detection failed</string>
 
     <string name="photo_verify_base_info">Choose or take a photo of your ID</string>
     <string name="photo_verify_base_camera">Open camera</string>
@@ -48,7 +49,4 @@
     <string name="enrollment_process_explanation_message">Enrollment is how BioID learns to recognize you. Four sets of pictures will be taken. Hold device at eye level and follow instructions.</string>
     <string name="enrollment_process_turn90degrees_title">Please turn</string>
     <string name="enrollment_process_turn90degrees_message">Turn yourself 90 degrees to your right to achieve different lighting conditions.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

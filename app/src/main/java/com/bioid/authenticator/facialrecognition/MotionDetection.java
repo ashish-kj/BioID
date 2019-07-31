@@ -42,7 +42,7 @@ public class MotionDetection {
      *
      * @param first the image which is used for the template matching.
      */
-    void createTemplate(@NonNull Bitmap first) {
+    public void createTemplate(@NonNull Bitmap first) {
 
         String stopwatchSessionId = log.startStopwatch("creating template for motion detection");
 

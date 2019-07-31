@@ -353,6 +353,11 @@ public final class FacialRecognitionFragment extends Fragment implements FacialR
     }
 
     @Override
+    public void showLivenessVerifyingInfo() {
+        showFullScreenMessage(R.string.liveness_waiting);
+    }
+
+    @Override
     public void showEnrollingInfo() {
         showFullScreenMessage(R.string.enrollment_waiting);
     }

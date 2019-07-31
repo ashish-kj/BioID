@@ -54,17 +54,27 @@ public class PhotoVerifyPresenter extends FacialRecognitionBasePresenter<NoopTok
     }
 
     @Override
-    protected void onImageWithMotionProcessed() {
-        // challenge does require further images
-        view.resetMovementIndicator();
+    protected void onReferenceImageCaptured(@NonNull final Bitmap bitmap) {
+        log.d("onReferenceImageCaptured(img=%s)", bitmap);
 
-        this.index += 1;
-        final MovementDirection nextCurrentDirection = MovementDirection.any;
-        final MovementDirection nextTargetDirection = MovementDirection.any;
-        backgroundHandler.runWithDelay(
-                () -> captureImagePair(index, nextCurrentDirection, nextTargetDirection)
-                , DELAY_TO_CONTINUE_WITHIN_CHALLENGE_IN_MILLIS);
+        // create motion detection template within the background to keep the UI responsive
+        backgroundHandler.runOnBackgroundThread(
+                () -> motionDetection.createTemplate(bitmap),
+                () -> {
+                    selfies[0] = bitmap;
+
+                    backgroundHandler.runWithDelay(() -> {
+                        // waiting for images with motion using timeout
+                        imageDetectionState = ImageDetectionState.WAITING_FOR_IMAGE_WITH_MOTION;
+                        setupMotionTimeout();
+                    }, DELAY_TO_CHECK_FOR_MOTION_IN_MILLIS);
+                }, e -> {
+                    throw e;  // should lead to app crash
+                }, null);
     }
+
+    @Override
+    protected void onImageWithMotionProcessed() {}
 
     @Override
     protected void onImageWithMotionCaptured(@NonNull final Bitmap bitmap) {
@@ -73,15 +83,10 @@ public class PhotoVerifyPresenter extends FacialRecognitionBasePresenter<NoopTok
         // cancel motion timeout and hide movement instruction text
         backgroundHandler.cancelScheduledTask(taskIdMotionTimeout);
         view.hideMessages();
-        selfies[index] = bitmap;
+        selfies[1] = bitmap;
 
-        if(this.isLastSelfie()) {
-            log.d("onImageWithMotionCaptured: 2 selfies captured");
-            view.hideMovementIndicator();
-            ((PhotoVerifyActivity) view.getParentActivity()).endSelfiesSession(selfies);
-        } else {
-            onImageWithMotionProcessed();
-        }
+        view.hideMovementIndicator();
+        ((PhotoVerifyActivity) view.getParentActivity()).endSelfiesSession(selfies);
     }
 
     @Override
@@ -113,11 +118,5 @@ public class PhotoVerifyPresenter extends FacialRecognitionBasePresenter<NoopTok
     @Override
     protected void resetBiometricOperation() {
         super.resetBiometricOperation();
-
-        this.index = 0;
-    }
-
-    private boolean isLastSelfie() {
-        return this.index >= 1;
     }
 }

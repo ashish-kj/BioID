@@ -1,5 +1,6 @@
 package com.bioid.authenticator.facialrecognition.photoverify;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +16,20 @@ public class PhotoVerifyProgressFragment extends Fragment {
 
     public PhotoVerifyProgressFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
 

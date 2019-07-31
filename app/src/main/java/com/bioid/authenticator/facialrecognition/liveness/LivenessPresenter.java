@@ -188,7 +188,7 @@ public class LivenessPresenter extends FacialRecognitionBasePresenter<LivenessTo
     void livenessDetection() {
         log.d("livenessDetection()");
 
-        view.showVerifyingInfo();
+        view.showLivenessVerifyingInfo();
 
         backgroundHandler.runOnBackgroundThread(() -> bioIdWebserviceClient.livenessDetection(bwsToken), () -> {
             log.i("livenessDetection successful");

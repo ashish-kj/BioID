@@ -44,7 +44,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     private static final int MOTION_TIMEOUT_IN_MILLIS = 12_000;
     private static final int FACE_TIMEOUT_IN_MILLIS = 4_000;
     private static final int DELAY_TO_NAVIGATE_BACK_IN_MILLIS = 3_000;
-    private static final int DELAY_TO_CHECK_FOR_MOTION_IN_MILLIS = 1_000;
+    protected static final int DELAY_TO_CHECK_FOR_MOTION_IN_MILLIS = 1_000;
 
     protected final Context ctx;
     protected final LoggingHelper log;
@@ -54,7 +54,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     private final ImageFormatConverter imageFormatConverter;
     private final ImageTransformer imageTransformer;
     private final FaceDetection faceDetection;
-    private final MotionDetection motionDetection;
+    protected final MotionDetection motionDetection;
     private final BioIdWebserviceClient bioIdWebserviceClient;
 
     protected T bwsToken;
@@ -67,11 +67,11 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     @VisibleForTesting
     PermissionState permissionState = PermissionState.UNKNOWN;
     @VisibleForTesting
-    ImageDetectionState imageDetectionState = ImageDetectionState.OTHER;
+    protected ImageDetectionState imageDetectionState = ImageDetectionState.OTHER;
     @VisibleForTesting
     MovementDirection currentDirection, destinationDirection;
     @VisibleForTesting
-    Integer taskIdMotionTimeout;
+    protected Integer taskIdMotionTimeout;
     @VisibleForTesting
     Integer taskIdFaceTimeout;
 
@@ -277,7 +277,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
         onFaceDetected();
     }
 
-    private void onReferenceImageCaptured(@NonNull final Bitmap img) {
+    protected void onReferenceImageCaptured(@NonNull final Bitmap img) {
         log.d("onReferenceImageCaptured(img=%s)", img);
 
         // create motion detection template within the background to keep the UI responsive
@@ -296,8 +296,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
                 }, null);
     }
 
-    @VisibleForTesting
-    void setupMotionTimeout() {
+    protected void setupMotionTimeout() {
         taskIdMotionTimeout = backgroundHandler.runWithDelay(() -> {
             log.w("motion timeout occurred after %d ms", MOTION_TIMEOUT_IN_MILLIS);
             resetBiometricOperation();
@@ -529,7 +528,7 @@ public abstract class FacialRecognitionBasePresenter<T extends BwsToken> impleme
     }
 
     @VisibleForTesting
-    enum ImageDetectionState {
+    protected enum ImageDetectionState {
         OTHER,
         WAITING_FOR_IMAGE_WITH_FACE,
         WAITING_FOR_REFERENCE_IMAGE,
